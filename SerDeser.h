@@ -17,7 +17,11 @@ public:
 
     bool HaveOwnVal() const { return haveOwnVal; }
     int GetOwnVal() const { return haveOwnVal ? val : throw std::runtime_error("Node does not have value");}
-    NodeList * GetList() { return haveOwnVal ? throw std::runtime_error("Node does not have list") : &list; }
+    NodeList const & GetList() const {
+        if (haveOwnVal)
+            throw std::runtime_error("Node does not have list");
+        return list;
+    }
 
 
     Node() : val(0), haveOwnVal(false) {}

@@ -4,8 +4,7 @@
 TEST(Tests, NodeTest) {
     Node n;
     ASSERT_FALSE(n.HaveOwnVal());
-    ASSERT_NE(n.GetList(), nullptr);
-    ASSERT_TRUE(n.GetList()->empty());
+    ASSERT_TRUE(n.GetList().empty());
     ASSERT_THROW(n.GetOwnVal(), std::runtime_error);
 
     n = 1;
@@ -18,9 +17,8 @@ TEST(Tests, NodeTest) {
     n = newList;
 
     ASSERT_FALSE(n.HaveOwnVal());
-    ASSERT_NE(n.GetList(), nullptr);
-    ASSERT_EQ(n.GetList()->size(), 3);
-    ASSERT_EQ(*n.GetList(), newList);
+    ASSERT_EQ(n.GetList().size(), 3);
+    ASSERT_EQ(n.GetList(), newList);
 }
 
 TEST(Tests, SerializeTests) {
@@ -39,4 +37,6 @@ TEST(Tests, SerializeTests) {
         std::string result = SerializeNode(testCase.first);
         ASSERT_EQ(testCase.second, result);
     }
+
+    ASSERT_THROW(SerializeNode(1), std::runtime_error);
 }
