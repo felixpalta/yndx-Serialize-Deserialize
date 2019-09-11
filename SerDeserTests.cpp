@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "SerDeser.h"
 
-TEST(Tests, FirstTest) {
+TEST(Tests, NodeTest) {
     Node n;
     ASSERT_FALSE(n.HaveOwnVal());
     ASSERT_NE(n.GetList(), nullptr);
@@ -21,7 +21,22 @@ TEST(Tests, FirstTest) {
     ASSERT_NE(n.GetList(), nullptr);
     ASSERT_EQ(n.GetList()->size(), 3);
     ASSERT_EQ(*n.GetList(), newList);
+}
 
+TEST(Tests, SerializeTests) {
+    std::vector<std::pair<Node, std::string>> testNodes{
+        {NodeList{}, "[]"},
+        {NodeList{NodeList{}}, "[[]]"},
+        {NodeList{NodeList{1}}, "[[1]]"},
+        {NodeList{1}, "[1]"},
+        {NodeList{1, 2, 3}, "[1, 2, 3]"},
+        {NodeList{1, 2, NodeList{3}, 4}, "[1, 2, [3], 4]"},
+        {NodeList{1, 2, NodeList{3, 4}, 5}, "[1, 2, [3, 4], 5]"},
+        {NodeList{1, 2, NodeList{3, 4}, 5, NodeList{}}, "[1, 2, [3, 4], 5, []]"}
+    };
 
-
+    for (auto testCase : testNodes) {
+        std::string result = SerializeNode(testCase.first);
+        ASSERT_EQ(testCase.second, result);
+    }
 }

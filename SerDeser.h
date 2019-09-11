@@ -36,14 +36,10 @@ public:
     bool operator!=(const Node & a, const Node & b);
 };
 
-bool operator==(const Node & a, const Node & b) {
-    return a.val == b.val &&
-            a.haveOwnVal == b.haveOwnVal &&
-            a.list == b.list;
-}
+bool operator==(const Node & a, const Node & b);
 
-bool operator!=(const Node & a, const Node & b) {
-    return !(a == b);
-}
+bool operator!=(const Node & a, const Node & b);
+
+std::string SerializeNode(const Node & root);
 
 #endif // SERDESER_H
